@@ -4,6 +4,7 @@
 #include "mgos.h"
 #include "mgos_wifi.h"
 #include "mgos_gpio.h"
+#include "mgos_sys_config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,8 +36,10 @@ static void _ergosense_led_task(void *params)
   vTaskDelete(NULL);
 }
 
-void ergosense_network_led_init(int led)
+void ergosense_network_led_init()
 {
+  int led = mgos_sys_config_get_networkled();
+  
   LOG(LL_DEBUG, ("Initialize network monitor LED on PIN %d", led));
 
   xTaskCreate(&_ergosense_led_task, "_ergosense_led_task", configMINIMAL_STACK_SIZE, (void *) led, 1, NULL);
