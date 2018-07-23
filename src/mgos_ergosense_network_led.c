@@ -1,14 +1,10 @@
 #include <FreeRTOS.h>
 #include <task.h>
-#include "ergosense_network_led.h"
+#include "mgos_ergosense_network_led.h"
 #include "mgos.h"
 #include "mgos_wifi.h"
 #include "mgos_gpio.h"
 #include "mgos_sys_config.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
 
 static void _ergosense_led_task(void *params)
 {
@@ -30,21 +26,17 @@ static void _ergosense_led_task(void *params)
         mgos_gpio_toggle(led);
     }
 
-    vTaskDelay(ERGOSENSE_NETWORK_LED_BLINK_INTERVAL / portTICK_RATE_MS);
+    vTaskDelay(MGOS_ERGOSENSE_NETWORK_LED_BLINK_INTERVAL / portTICK_RATE_MS);
   }
 
   vTaskDelete(NULL);
 }
 
-void ergosense_network_led_init()
+void mgos_ergosense_network_led_init()
 {
   int led = mgos_sys_config_get_networkled();
-  
+
   LOG(LL_DEBUG, ("Initialize network monitor LED on PIN %d", led));
 
   xTaskCreate(&_ergosense_led_task, "_ergosense_led_task", configMINIMAL_STACK_SIZE, (void *) led, 1, NULL);
 }
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
