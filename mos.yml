@@ -1,0 +1,19 @@
+author: ergosense
+type: lib
+description: Network LED
+version: 1.0
+
+sources:
+  - src
+includes:
+  - include
+
+config_schema:
+  - ["networkled", "i", 2, {title: "Network LED PIN"}]
+
+libs: ~
+
+tags:
+  - ergosense
+
+manifest_version: 2017-09-29
